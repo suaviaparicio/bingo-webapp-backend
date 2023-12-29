@@ -45,13 +45,13 @@ class BingoGame {
     }
 
     checkPlayerWin(playerCard) {
-        console.log(this.drawnNumbers)
-        return isFourCornersMatch(playerCard, this.drawnNumbers)
-        // isFullMatch(playerCard, this.drawnNumbers) || 
-        //        isVerticalMatch(playerCard, this.drawnNumbers) ||
-        //        isHorizontalMatch(playerCard, this.drawnNumbers) ||
-                // ||
-             //  isDiagonalMatch(playerCard, this.drawnNumbers);
+        const drawnNumberValues = this.drawnNumbers.map(drawn => drawn.number);
+        
+        return  isFullMatch(playerCard, drawnNumberValues) ||
+            isDiagonalMatch(playerCard, drawnNumberValues) ||
+            isVerticalMatch(playerCard, drawnNumberValues) ||
+            isHorizontalMatch(playerCard, drawnNumberValues) ||
+            isFourCornersMatch(playerCard, drawnNumberValues);
     };
 
     simulateDrawing() {
