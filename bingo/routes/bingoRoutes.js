@@ -10,8 +10,8 @@ const card = new BingoCard();
 router.post('/generate-card', (req, res) => {
     const generatedCard = card.generateBingoCard()
     console.log(generatedCard);
-    console.log(res.json(generatedCard));
-    res.send('tabla generada')
+    // console.log(res.json(generatedCard));
+    res.json(generatedCard)
 
 });
 
