@@ -29,14 +29,14 @@ class BingoGame {
     }
 
     startGame() {
-        this.intervalId = setInterval(() => this.drawNumber(), 100);
-        console.log('El juego va a iniciar');
+        this.intervalId = setInterval(() => this.drawNumber(), 1000);
+        console.log('¡Atento! El juego está por iniciar');
     }
 
     stopGame() {
         if (this.intervalId) {
             clearInterval(this.intervalId);
-            console.log('Juego terminado');
+            console.log('El juego ha finalizado');
         }
     }
 
@@ -63,22 +63,22 @@ class BingoGame {
 
 module.exports = BingoGame;
 
+// // const game = new BingoGame();
+// const playerCard = new BingoCard();
+// // game.startGame();
+// // game.checkPlayerWin(playerCard);
+
+
 // const game = new BingoGame();
-const playerCard = new BingoCard();
-// game.startGame();
-// game.checkPlayerWin(playerCard);
 
+// // Start the game and draw numbers
+// game.simulateDrawing();
 
-const game = new BingoGame();
-
-// Start the game and draw numbers
-game.simulateDrawing();
-
-// After a delay, check if the player has won
-setTimeout(() => {
-    if (game.checkPlayerWin(playerCard.card)) {
-        console.log("Player has won!");
-    } else {
-        console.log("Not a winning card.");
-    }
-}, 10000); // Check for a win after 35 seconds
+// // After a delay, check if the player has won
+// setTimeout(() => {
+//     if (game.checkPlayerWin(playerCard.card)) {
+//         console.log("Player has won!");
+//     } else {
+//         console.log("Not a winning card.");
+//     }
+// }, 10000); // Check for a win after 35 seconds

@@ -36,6 +36,4 @@ class BingoCard {
     }
 }
 
-console.log(new BingoCard());
-
 module.exports = BingoCard;
