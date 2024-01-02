@@ -1,5 +1,4 @@
 const BingoNumberPool = require("./BingoNumberPool");
-const BingoCard = require("./BingoCard")
 const {
     isFullMatch,
     isVerticalMatch,
@@ -19,7 +18,6 @@ class BingoGame {
         if (this.availableNumbers.length > 0) {
             const randomIndex = Math.floor(Math.random() * this.availableNumbers.length);
             const bingoBall = this.availableNumbers.splice(randomIndex, 1)[0];
-            // console.log(number);
             this.drawnNumbers.push(bingoBall);
             console.log(`Balota: ${bingoBall.letter}${bingoBall.number}`);
         } else {
@@ -46,39 +44,12 @@ class BingoGame {
 
     checkPlayerWin(playerCard) {
         const drawnNumberValues = this.drawnNumbers.map(drawn => drawn.number);
-        
-        return  isFullMatch(playerCard, drawnNumberValues) ||
+        return isFullMatch(playerCard, drawnNumberValues) ||
             isDiagonalMatch(playerCard, drawnNumberValues) ||
             isVerticalMatch(playerCard, drawnNumberValues) ||
             isHorizontalMatch(playerCard, drawnNumberValues) ||
             isFourCornersMatch(playerCard, drawnNumberValues);
     };
-
-    simulateDrawing() {
-        this.startGame();
-        setTimeout(() => this.stopGame(), 10000);
-    }
-
 };
 
 module.exports = BingoGame;
-
-// // const game = new BingoGame();
-// const playerCard = new BingoCard();
-// // game.startGame();
-// // game.checkPlayerWin(playerCard);
-
-
-// const game = new BingoGame();
-
-// // Start the game and draw numbers
-// game.simulateDrawing();
-
-// // After a delay, check if the player has won
-// setTimeout(() => {
-//     if (game.checkPlayerWin(playerCard.card)) {
-//         console.log("Player has won!");
-//     } else {
-//         console.log("Not a winning card.");
-//     }
-// }, 10000); // Check for a win after 35 seconds

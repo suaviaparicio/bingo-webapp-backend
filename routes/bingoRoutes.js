@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const BingoGame = require('../controllers/PlayBingo');
+const BingoGame = require('../controllers/BingoGame');
 const BingoCard = require('../controllers/BingoCard');
 const game = new BingoGame();
 const card = new BingoCard();
@@ -20,6 +20,11 @@ router.post('/start-game', (req, res) => {
     game.startGame();
     res.send('¡Atento! El juego está por iniciar');
 });
+// Stop the game
+router.post('/stop-game', (req, res) => {
+    game.stopGame();
+    res.send('El juego ha terminado');
+});
 
 // Check if a player has won
 router.post('/check-win', (req, res) => {
@@ -34,7 +39,5 @@ router.post('/check-win', (req, res) => {
         // Debo decirle que vaya al Home
     }
 });
-
-
 
 module.exports = router;
