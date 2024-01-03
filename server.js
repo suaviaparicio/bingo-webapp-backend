@@ -1,6 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
+const session = require('express-session');
+require('dotenv').config();
+
 app.use(cors({
     origin: (origin, callback) => {
         // Allow requests with no origin (like mobile apps or curl requests)
@@ -17,29 +20,20 @@ app.use(cors({
 }));
 const server = require('http').createServer(app);
 const bingoRoutes = require('./routes/bingoRoutes');
+const authRoutes = require('./routes/authRoutes');
 const wsServer = require('./wsServer');
-// const session = require('express-session');
-// const passport = require('passport');
-// require('./config/passport-config')(passport);
 wsServer.initialize(server);
 
 app.use(express.json()); // For parsing JSON bodies
 //app.use(bodyParser.json());
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }
+}));
 
-app.use('/api', bingoRoutes);
-
-// app.use(cors());
-
-
-// app.use(session({
-//     secret: 'sdjkfalcnlee',
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { secure: true }
-// }));
-
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use('/api', bingoRoutes, authRoutes);
 
 const port = 3000;
 server.listen(port, () => {
