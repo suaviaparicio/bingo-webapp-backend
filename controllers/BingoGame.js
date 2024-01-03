@@ -6,7 +6,7 @@ const {
     isFourCornersMatch,
     isDiagonalMatch
 } = require('./BingoRules');
-const numberDrawn = require('./numberDrawn');
+const { numberDrawn } = require('./numberDrawn');
 const { broadcastDrawnNumber } = require('../wsServer')
 
 class BingoGame {

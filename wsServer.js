@@ -17,6 +17,11 @@ function broadcastDrawnNumber(number) {
     broadcast(message);
 }
 
+function broadcastStartGameCounter(counter) {
+    const message = JSON.stringify({ type: 'COUNTER', data: counter });
+    broadcast(message);
+}
+
 function broadcastCurrentUserList(users) {
     const message = JSON.stringify({ type: 'CURRENT_USERS', data: users });
     broadcast(message);
@@ -34,4 +39,4 @@ function broadcast(message) {
     });
 }
 
-module.exports = { initialize, broadcastDrawnNumber, broadcastCurrentUserList, broadcast };
+module.exports = { initialize, broadcastDrawnNumber, broadcastStartGameCounter, broadcastCurrentUserList, broadcast };
