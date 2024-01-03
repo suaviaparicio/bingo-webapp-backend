@@ -6,8 +6,8 @@ afterAll((done) => {
 });
 
 describe('Bingo route card generator', () => {
-    test('POST /bingo/generate-card generates a valid Bingo card', async () => {
-        const response = await request(server).post('/bingo/generate-card');
+    test('POST /api/generate-card generates a valid Bingo card', async () => {
+        const response = await request(server).post('/api/generate-card');
         expect(response.statusCode).toBe(200);
 
         // Check if all required properties are present
@@ -34,16 +34,16 @@ describe('Bingo route card generator', () => {
 });
 
 describe('Bingo start and stop game', () => {
-    test('POST /bingo/start-game starts the game', async () => {
-        const start = await request(server).post('/bingo/start-game');
+    test('POST /api/start-game starts the game', async () => {
+        const start = await request(server).post('/api/start-game');
         expect(start.statusCode).toBe(200);
-        const stop = await request(server).post('/bingo/stop-game');
+        const stop = await request(server).post('/api/stop-game');
         expect(start.statusCode).toBe(200);
     });
 });
 
 describe('Bingo route card check-win', () => {
-    test('POST /bingo/check-win win and stop the game', async () => {
+    test('POST /api/check-win win and stop the game', async () => {
         const mockPlayerCard = {
             B: [1, 2, 3, 4, 5],
             I: [16, 17, 18, 19, 20],
@@ -53,7 +53,7 @@ describe('Bingo route card check-win', () => {
         };
 
         const response = await request(server)
-            .post('/bingo/check-win')
+            .post('/api/check-win')
             .send(mockPlayerCard)
             .set('Content-Type', 'application/json');
 

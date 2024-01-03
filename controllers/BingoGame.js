@@ -6,12 +6,18 @@ const {
     isFourCornersMatch,
     isDiagonalMatch
 } = require('./BingoRules');
+const numberDrawn = require('./numberDrawn');
+const { broadcastDrawnNumber } = require('../wsServer')
 
 class BingoGame {
     constructor() {
         this.availableNumbers = BingoNumberPool.generateBingoNumbers()
         this.drawnNumbers = [];
         this.intervalId = null;
+
+        this.subscription = numberDrawn.subscribe({
+            next: (number) => broadcastDrawnNumber(JSON.stringify(number))
+        });
     }
 
     drawNumber() {
@@ -19,6 +25,7 @@ class BingoGame {
             const randomIndex = Math.floor(Math.random() * this.availableNumbers.length);
             const bingoBall = this.availableNumbers.splice(randomIndex, 1)[0];
             this.drawnNumbers.push(bingoBall);
+            numberDrawn.next(bingoBall); 
             console.log(`Balota: ${bingoBall.letter}${bingoBall.number}`);
         } else {
             console.log('Todas las balotas ya han jugado');
@@ -35,6 +42,17 @@ class BingoGame {
         if (this.intervalId) {
             clearInterval(this.intervalId);
             console.log('El juego ha finalizado');
+        }
+        if (this.subscription) {
+            this.subscription.unsubscribe();
+        }
+        if (this.drawnNumbers.length > 0) {
+            this.availableNumbers = BingoNumberPool.generateBingoNumbers()
+            this.drawnNumbers = [];
+            this.intervalId = null;
+            this.subscription = numberDrawn.subscribe({
+                next: (number) => broadcastDrawnNumber(JSON.stringify(number))
+            });
         }
     }
 
