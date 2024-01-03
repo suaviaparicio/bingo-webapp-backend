@@ -23,15 +23,6 @@ function broadcastCurrentUserList(users) {
 }
 
 function broadcast(message) {
-    wss.clients.forEach(client => {
-        if (client.readyState === WebSocket.OPEN) {
-            client.send(message);
-        }
-    });
-}
-
-
-function broadcast(message) {
     if (!wss) {
         throw new Error('WebSocket server is not initialized');
     }
