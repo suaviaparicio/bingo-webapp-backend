@@ -3,9 +3,10 @@ const router = express.Router();
 const BingoGame = require('../controllers/BingoGame');
 const BingoCard = require('../controllers/BingoCard');
 const BingoCounter = require('../controllers/BingoCounter');
+const BingoActiveUsers = require('../controllers/BingoActiveUsers');
 const game = new BingoGame();
 const card = new BingoCard();
-
+const activeUsers = new BingoActiveUsers();
 
 // Generate Bingo card
 router.post('/generate-card', (req, res) => {
@@ -32,6 +33,17 @@ router.post('/start-game', (req, res) => {
 router.post('/stop-game', (req, res) => {
     game.stopGame();
     res.send('El juego ha terminado');
+});
+
+// Get current active users
+router.get('/active-users', (req, res) => {
+    res.json(activeUsers);
+});
+
+// Add a new user to the list of active users
+router.post('/add-user', (req, res) => {
+    activeUsers.addUser(req.session.user);
+    res.send('Usuario agregado');
 });
 
 // Check if a player has won
