@@ -1,9 +1,17 @@
 const { User, WinningRecord } = require('../models/Model');
+const NodeCache = require('node-cache');
+const userCache = new NodeCache({ stdTTL: 600 }); // Cache TTL in seconds
 
 async function getBingoUserIdByUsername(username) {
+    const cachedUserId = userCache.get(username);
+    if (cachedUserId) {
+        return cachedUserId;
+    }
+
     try {
         const user = await User.findOne({ where: { username } });
         if (user) {
+            userCache.set(username, user.UserID);
             return user.UserID;
         } else {
             console.log('User not found');
@@ -13,7 +21,7 @@ async function getBingoUserIdByUsername(username) {
         console.error('Error fetching user by username:', error);
         throw error;
     }
-};
+}
 
 async function registerBingoWinner(username) {
     try {
@@ -24,12 +32,12 @@ async function registerBingoWinner(username) {
                 WinTime: new Date()
             });
         } else {
-            console.log('Could not save card: User not found.');
+            console.log('Could not register winner: User not found.');
         }
     } catch (error) {
-        console.error('Error in saveUserCard:', error);
+        console.error('Error in registerBingoWinner:', error);
         throw error;
     }
-};
+}
 
-module.exports = registerBingoWinner
+module.exports = registerBingoWinner;
