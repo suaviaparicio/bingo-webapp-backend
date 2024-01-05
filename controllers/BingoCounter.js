@@ -7,11 +7,11 @@ class BingoCounter {
         this.subscription = countDown.subscribe({
             next: (counter) => broadcastStartGameCounter(JSON.stringify(counter))
         });
-        this.counter = 10;
+        this.counter = 30;
     }
 
     startCounter() {
-        if (this.counter === 10) {
+        if (this.counter === 30) {
             const intervalId = setInterval(() => {
                 if (this.counter >= 0) {
                     console.log(this.counter);
@@ -21,7 +21,7 @@ class BingoCounter {
                     clearInterval(intervalId);
                     console.log('Countdown finished!');
                     game.startGame();
-                    this.counter = 10;
+                    this.counter = 30;
                 }
             }, 1000);
         } else {

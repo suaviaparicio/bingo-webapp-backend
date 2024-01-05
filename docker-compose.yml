@@ -14,11 +14,15 @@ services:
       - mysql_data:/var/lib/mysql
     command: --default-authentication-plugin=mysql_native_password
     restart: always
-  # backend:
-  #   build: .
-  #   ports:
-  #     - "3000:3000"
-  #   restart: always
+  backend:
+    build: .
+    depends_on:
+      - mysql
+    ports:
+      - "3000:3000"
+    restart: always
+  # frontend:
+  #   image: frontend
     
 volumes:
   mysql_data:
