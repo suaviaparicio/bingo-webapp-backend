@@ -7,22 +7,29 @@ class BingoCounter {
         this.subscription = countDown.subscribe({
             next: (counter) => broadcastStartGameCounter(JSON.stringify(counter))
         });
+        this.counter = 10;
     }
 
     startCounter() {
-        let counter = 10;
-        const intervalId = setInterval(() => {
-            console.log(counter);
-            countDown.next(counter);
-            counter -= 1;
-        
-            if (counter === -1) {
-                game.startGame();
-                clearInterval(intervalId);
-                console.log('Countdown finished!');
-            }
-        }, 1000);
+        if (this.counter === 10) {
+            const intervalId = setInterval(() => {
+                if (this.counter >= 0) {
+                    console.log(this.counter);
+                    countDown.next(this.counter);
+                    this.counter -= 1;
+                } else {
+                    clearInterval(intervalId);
+                    console.log('Countdown finished!');
+                    game.startGame();
+                    this.counter = 10;
+                }
+            }, 1000);
+        } else {
+            console.log('Active counter');
+        }
     }
 };
 
-module.exports = BingoCounter;
+counter = new BingoCounter()
+
+module.exports = counter;

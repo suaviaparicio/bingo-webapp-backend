@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const game = require('../controllers/BingoGame');
 const BingoCard = require('../controllers/BingoCard');
-const BingoCounter = require('../controllers/BingoCounter');
 const BingoActiveUsers = require('../controllers/BingoActiveUsers');
-const saveCardForUsername = require('../controllers/BingoStoreCard');
+const counter = require('../controllers/BingoCounter');
+const { saveCardForUsername, getCardForUsername } = require('../controllers/BingoStoreCard');
 const registerBingoWinner = require('../controllers/BingoRecordWin');
 const card = new BingoCard();
 const activeUsers = new BingoActiveUsers();
@@ -20,7 +20,6 @@ router.post('/generate-card', (req, res) => {
 
 // Start counter in the waiting rom
 router.post('/start-counter', (req, res) => {
-    const counter = new BingoCounter();
     counter.startCounter();
     res.send('El contador ha iniciado');
 });
@@ -42,25 +41,27 @@ router.get('/active-users', (req, res) => {
 });
 
 // Add a new user to the list of active users
-router.post('/add-user', (req, res) => {
-    const username = (req.session.user)
-    activeUsers.addUser(username);
+router.post('/add-user', async (req, res) => {
+    //const username = (req.session.user)
+    username = 'exampleUser';
+    activeUsers.addUser('exampleUser1');
+    activeUsers.addUser('exampleUser');
+    activeUsers.addUser('exampleUser2');
     res.send('Usuario agregado');
 });
 
 // Check if a player has won
-router.post('/check-win', (req, res) => {
-    const playerCard = req.session.card;
+router.post('/check-win', async (req, res) => {
+    username = 'exampleUser';
+    const playerCard = await getCardForUsername(username)
+    //const playerCard = req.session.card;
     if (game.checkPlayerWin(playerCard)) {
-        res.send('¡Felicitaciones! Ganaste el Bingo');
+        res.json({ winner: true })
         game.stopGame();
         //const username = (req.session.user)
-        username = 'exampleUser';
         registerBingoWinner(username);
-        // Debo redirigir a todos al Home
     } else {
-        res.send('Tarjeta no ganadora, quedas descalificado');
-        // Debo decirle que vaya al Home
+        res.json({ winner: false })
     }
 });
 
