@@ -16,8 +16,6 @@ services:
     restart: always
   backend:
     build: .
-    depends_on:
-      - mysql
     ports:
       - "3000:3000"
     restart: always
