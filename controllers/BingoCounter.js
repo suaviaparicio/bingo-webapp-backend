@@ -1,5 +1,6 @@
 const { broadcastStartGameCounter } = require("../wsServer");
 const { countDown } = require('./numberDrawn');
+const game = require('../controllers/BingoGame');
 
 class BingoCounter {
     constructor() {
@@ -9,13 +10,14 @@ class BingoCounter {
     }
 
     startCounter() {
-        let counter = 60;
+        let counter = 10;
         const intervalId = setInterval(() => {
             console.log(counter);
             countDown.next(counter);
             counter -= 1;
         
-            if (counter === 0) {
+            if (counter === -1) {
+                game.startGame();
                 clearInterval(intervalId);
                 console.log('Countdown finished!');
             }

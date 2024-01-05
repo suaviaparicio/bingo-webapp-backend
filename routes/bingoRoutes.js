@@ -1,19 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const BingoGame = require('../controllers/BingoGame');
+const game = require('../controllers/BingoGame');
 const BingoCard = require('../controllers/BingoCard');
 const BingoCounter = require('../controllers/BingoCounter');
 const BingoActiveUsers = require('../controllers/BingoActiveUsers');
-const game = new BingoGame();
+const saveCardForUsername = require('../controllers/BingoStoreCard');
+const registerBingoWinner = require('../controllers/BingoRecordWin');
 const card = new BingoCard();
 const activeUsers = new BingoActiveUsers();
 
 // Generate Bingo card
 router.post('/generate-card', (req, res) => {
     const generatedCard = card.generateBingoCard()
-    req.session.card = generatedCard;
-    console.log(generatedCard);
-    // console.log(res.json(generatedCard));
+    // const username = (req.session.user)
+    username = 'exampleUser';
+    saveCardForUsername(username, generatedCard)
     res.json(generatedCard)
 });
 
@@ -42,7 +43,8 @@ router.get('/active-users', (req, res) => {
 
 // Add a new user to the list of active users
 router.post('/add-user', (req, res) => {
-    activeUsers.addUser(req.session.user);
+    const username = (req.session.user)
+    activeUsers.addUser(username);
     res.send('Usuario agregado');
 });
 
@@ -52,6 +54,9 @@ router.post('/check-win', (req, res) => {
     if (game.checkPlayerWin(playerCard)) {
         res.send('¡Felicitaciones! Ganaste el Bingo');
         game.stopGame();
+        //const username = (req.session.user)
+        username = 'exampleUser';
+        registerBingoWinner(username);
         // Debo redirigir a todos al Home
     } else {
         res.send('Tarjeta no ganadora, quedas descalificado');

@@ -28,7 +28,8 @@ const corsOptions = {
 
         // For other origins, reject or handle them differently
         callback(new Error('CORS not allowed for this origin'));
-    }
+    },
+    credentials: true
 };
 
 app.use(cors(corsOptions));

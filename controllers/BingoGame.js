@@ -34,7 +34,7 @@ class BingoGame {
     }
 
     startGame() {
-        this.intervalId = setInterval(() => this.drawNumber(), 1000);
+        this.intervalId = setInterval(() => this.drawNumber(), 5000);
         console.log('¡Atento! El juego está por iniciar');
     }
 
@@ -70,4 +70,6 @@ class BingoGame {
     };
 };
 
-module.exports = BingoGame;
+const game = new BingoGame();
+
+module.exports = game;

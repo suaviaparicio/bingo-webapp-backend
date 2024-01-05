@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const authenticateUser = require('../models/BingoUserAuth');
+const authenticateUser = require('../controllers/BingoUserAuth');
 
 router.post('/auth', async (req, res) => {
     const { username, password } = req.body;
@@ -9,17 +8,21 @@ router.post('/auth', async (req, res) => {
     
     if (success) {
         req.session.user = username;
-        res.send('Autenticación exitosa');
+        console.log(req.session.user)
+        res.json({ message: 'Autenticación exitosa', user: username });
     }
     else {
         res.status(401).send('Autenticación fallida');
     }
 });
 
-router.get('/check-session', (req, res) => {
+router.get('/check-session', async (req, res) => {
     if (req.session.user) {
-        res.send({ loggedIn: true, user: req.session.user, bingCard: req.session.card });
+        console.log("ughh")
+        //res.json({ loggedIn: true, user: req.session.user, bingoCard: req.session.card });
+        res.send({ loggedIn: true });
     } else {
+        console.log("ughh2")
         res.send({ loggedIn: false });
     }
 });
