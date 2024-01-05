@@ -18,11 +18,9 @@ router.post('/auth', async (req, res) => {
 
 router.get('/check-session', async (req, res) => {
     if (req.session.user) {
-        console.log("ughh")
         //res.json({ loggedIn: true, user: req.session.user, bingoCard: req.session.card });
         res.send({ loggedIn: true });
     } else {
-        console.log("ughh2")
         res.send({ loggedIn: false });
     }
 });

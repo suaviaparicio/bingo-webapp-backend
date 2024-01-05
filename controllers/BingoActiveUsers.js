@@ -1,19 +1,9 @@
 class BingoActiveUsers {
     constructor() {
-        this.activeUsers = {};
+        this.activeUsers = [];
     }
-    async addUser(userId) {
-        this.activeUsers[userId] = userId;
-    }
-    async removeUser(userId) {
-        delete this.activeUsers[userId];
-    }
-    async getActiveUsers() {
-        return Object.keys(this.activeUsers).map(userId => {
-            return {
-                id: userId,
-            };
-        });
+    async addUser(username) {
+        this.activeUsers.push(username);
     }
 }
 
